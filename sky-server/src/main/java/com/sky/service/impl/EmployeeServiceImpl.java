@@ -97,4 +97,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
 
+    public void startOrStop(Integer status, Long id) {
+        //创建一个实体类对象，不用只根据id修改status，还能修改别的参数，通用性更强,builder是实体类构建器
+        Employee employee = Employee.builder()
+                .status(status)
+                .id(id)
+                .build();
+        employeeMapper.update(employee);
+
+    }
+
+
 }
