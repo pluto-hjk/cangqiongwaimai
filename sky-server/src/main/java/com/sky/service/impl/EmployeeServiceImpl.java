@@ -74,11 +74,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = new Employee();
         //对象属性拷贝,前提是对象中的属性名一致
         BeanUtils.copyProperties(employeeDTO,employee);
-        //补充完整employee的属性
-        employee.setStatus(StatusConstant.ENABLE);
-        employee.setPassword(PasswordConstant.DEFAULT_PASSWORD);
-        employee.setCreateTime(LocalDateTime.now());
-        employee.setUpdateTime(LocalDateTime.now());
+//        //补充完整employee的属性
+//        employee.setStatus(StatusConstant.ENABLE);
+//        employee.setPassword(PasswordConstant.DEFAULT_PASSWORD);
+//        employee.setCreateTime(LocalDateTime.now());
+//        employee.setUpdateTime(LocalDateTime.now());
 
         //设置当前登录用户的id
 
@@ -137,9 +137,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = new Employee();
         BeanUtils.copyProperties(employeeDTO,employee);
 
-        employee.setUpdateTime(LocalDateTime.now());
-        //设置当前登录用户的id
-        employee.setUpdateUser(BaseContext.getCurrentId());
+//        employee.setUpdateTime(LocalDateTime.now());
+//        //设置当前登录用户的id
+//        employee.setUpdateUser(BaseContext.getCurrentId());
         employeeMapper.update(employee);
     }
 
