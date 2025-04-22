@@ -47,7 +47,7 @@ public class AutoFillAspect {
         if (args == null || args.length == 0) {
             return;
         }
-        Object entity = args[0];//实体类型不确定，用object接收
+        Object entity = args[0];//实体类型不确定，用object接收该实体对象，菜品，员工等等
 
         //准备赋值的数据
         LocalDateTime now = LocalDateTime.now();
