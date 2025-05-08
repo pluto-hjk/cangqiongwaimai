@@ -1,21 +1,34 @@
 package com.sky.config;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
 @Slf4j
 public class RedisConfiguration {
-    public RedisTemplate redisTemplate(RedisConnectionFactory redisConnectionFactory){
-        RedisTemplate redisTemplate = new RedisTemplate();
-        //设置连接工厂
-        redisTemplate.setConnectionFactory(redisConnectionFactory);
-        //设置key序列化方式,string类型的序列化器可以使数据在redis客户端可视化
-        redisTemplate.setKeySerializer(new StringRedisSerializer());
+    @Bean
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        RedisTemplate<String, Object> template = new RedisTemplate<>();
+        template.setConnectionFactory(redisConnectionFactory);
 
-        return redisTemplate;
+        // Key序列化器
+        template.setKeySerializer(new StringRedisSerializer());
+
+        // Value序列化器 - 使用Jackson处理各种类型
+        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+
+        // Hash Key序列化器
+        template.setHashKeySerializer(new StringRedisSerializer());
+
+        // Hash Value序列化器
+        template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+
+        template.afterPropertiesSet();
+        return template;
     }
 }
