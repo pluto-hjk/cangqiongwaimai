@@ -19,14 +19,14 @@ public class RedisConfiguration {
         // Key序列化器
         template.setKeySerializer(new StringRedisSerializer());
 
-        // Value序列化器 - 使用Jackson处理各种类型
-        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
-
-        // Hash Key序列化器
-        template.setHashKeySerializer(new StringRedisSerializer());
-
-        // Hash Value序列化器
-        template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+//        // Value序列化器 - 使用Jackson处理各种类型
+//        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+//
+//        // Hash Key序列化器
+//        template.setHashKeySerializer(new StringRedisSerializer());
+//
+//        // Hash Value序列化器
+//        template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
 
         template.afterPropertiesSet();
         return template;
