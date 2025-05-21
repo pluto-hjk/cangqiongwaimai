@@ -1,10 +1,12 @@
 package com.sky.service.impl;
 
+import com.sky.dto.GoodsSalesDTO;
 import com.sky.entity.Orders;
 import com.sky.mapper.OrderMapper;
 import com.sky.mapper.UserMapper;
 import com.sky.service.ReportService;
 import com.sky.vo.OrderReportVO;
+import com.sky.vo.SalesTop10ReportVO;
 import com.sky.vo.TurnoverReportVO;
 import com.sky.vo.UserReportVO;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -148,6 +151,41 @@ public class ReportServiceImpl implements ReportService {
                 .totalOrderCount(totalOrderCount)
                 .validOrderCount(totalValidOrderCount)
                 .orderCompletionRate(orderCompletionRate)
+                .build();
+    }
+
+    /**
+     * 销量排名top10
+     * @param begin
+     * @param end
+     * @return
+     */
+    public SalesTop10ReportVO getSalesTop10(LocalDate begin, LocalDate end) {
+        LocalDateTime beginTime = LocalDateTime.of(begin, LocalTime.MIN);
+        LocalDateTime endTime = LocalDateTime.of(end, LocalTime.MAX);
+        List<GoodsSalesDTO> list = orderMapper.getSalesTop10(beginTime, endTime);
+
+        // 1. 初始化两个 StringBuilder 用于拼接字符串
+        StringBuilder nameBuilder = new StringBuilder();
+        StringBuilder numberBuilder = new StringBuilder();
+
+        // 2. 遍历 list，逐个提取 name 和 number
+        boolean isFirst = true; // 标记是否是第一个元素（避免多余的逗号）
+        for (GoodsSalesDTO dto : list) {
+            //先加逗号后加元素
+            if (!isFirst) {
+                nameBuilder.append(",");
+                numberBuilder.append(",");
+            }
+            nameBuilder.append(dto.getName());
+            numberBuilder.append(dto.getNumber()); // 自动调用 toString()
+            isFirst = false;
+        }
+
+        // 3. 构建 SalesTop10ReportVO
+         return  SalesTop10ReportVO.builder()
+                .nameList(nameBuilder.toString())
+                .numberList(numberBuilder.toString())
                 .build();
     }
 
